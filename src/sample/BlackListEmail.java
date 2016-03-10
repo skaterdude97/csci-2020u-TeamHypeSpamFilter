@@ -11,17 +11,19 @@ import java.util.Scanner;
  * Created by brad on 10/03/16.
  */
 public class BlackListEmail {
-    private String email;
-    private List<String> blacklist = new ArrayList<>();
-    private List<File> fileBlackList = new ArrayList<>();
+    private List<String> blacklist;
 
     public BlackListEmail(String email) {
-        email = this.email;
+        blacklist = new ArrayList<>();
 
     }
 
     public void addEmail(String email){
         blacklist.add(email);
+    }
+
+    public List<String> getBlacklist () {
+        return blacklist;
     }
 //    public void processFile(File file, String[] blacklist) throws IOException {
 //        if (file.isDirectory()) {
