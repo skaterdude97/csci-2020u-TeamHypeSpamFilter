@@ -3,7 +3,6 @@ package sample;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Map;
-import java.util.Observable;
 import java.util.Scanner;
 import javafx.collections.*;
 

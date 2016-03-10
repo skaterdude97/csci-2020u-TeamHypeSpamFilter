@@ -3,30 +3,33 @@ package sample;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
+
 import java.io.File;
+import java.text.DecimalFormat;
+
 
 public class Main extends Application {
     private BorderPane layout;
     private TableView<TestFile> table;
     private TextField accuracy, precision;
     private GridPane summary;
+    final DecimalFormat outputFormat = new DecimalFormat("0.00000");
 
-    @Override
     public void start(Stage primaryStage) throws Exception{
         primaryStage.setTitle("Spam Defender >9000");
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setInitialDirectory(new File("."));
         File mainDirectory = directoryChooser.showDialog(primaryStage);
+
+
 
         Training trainer = new Training();
         trainer.train(new File (mainDirectory + "/train"));
@@ -50,7 +53,16 @@ public class Main extends Application {
         probabilityColumn = new TableColumn<>("Spam Probability");
         probabilityColumn.setMinWidth(200);
         probabilityColumn.setCellValueFactory(new PropertyValueFactory<>("spamProbability"));
+        probabilityColumn.setCellFactory(TextFieldTableCell.<TestFile,Double>forTableColumn(new StringConverter<Double>() {
+            @Override public String toString(final Double value) {
+                return outputFormat.format(value);
+            }
 
+            @Override public Double fromString(final String s) {
+                // Don't need this, unless table is editable, see DoubleStringConverter if needed
+                return null;
+            }
+        }));
         table = new TableView<>();
         table.setItems(tester.getFiles());
 
@@ -67,14 +79,14 @@ public class Main extends Application {
         summary.add(accuracyLabel,0,0);
         accuracy = new TextField();
         accuracy.setEditable(false);
-        accuracy.setText(""+ tester.getAccuracy());
+        accuracy.setText(outputFormat.format(tester.getAccuracy()));
         summary.add(accuracy,1,0);
 
         Label precisionLabel = new Label("Precision");
         summary.add(precisionLabel,0,1);
         precision = new TextField();
         precision.setEditable(false);
-        precision.setText(""+ tester.getPrecision());
+        precision.setText(new String(outputFormat.format(tester.getPrecision())));
         summary.add(precision,1,1);
 
         layout = new BorderPane();
@@ -87,7 +99,7 @@ public class Main extends Application {
     }
 
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    public static void main(String[] args) {launch(args);}
 }
+
+
