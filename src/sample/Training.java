@@ -58,21 +58,21 @@ public class Training {
         return false;
     }
 
-    public void printWordCounts(int minCount, File outputFile) throws FileNotFoundException {
+    public void printWordCounts(int minCount, File outputFile, Map<String, ?> map) throws FileNotFoundException {
         System.out.println("Saving word counts to " + outputFile.getAbsolutePath());
         if (!outputFile.exists() || outputFile.canWrite()) {
             PrintWriter fout = new PrintWriter(outputFile);
 
-            Set<String> keys = probOfWord.keySet();
+            Set<String> keys = map.keySet();
             Iterator<String> keyIterator = keys.iterator();
 
             while(keyIterator.hasNext()) {
                 String key = keyIterator.next();
-                double count = probOfWord.get(key);
+                Object count = map.get(key);
 
-                if (count >= minCount) {
+                //if (count >= minCount) {
                     fout.println(key + ": " + count);
-                }
+               // }
             }
             fout.close();
         } else {
@@ -81,28 +81,22 @@ public class Training {
     }
 
 
+
     public void setProbOfWord(Map<String, Integer> spam, Map<String, Integer> ham, int numHam, int numSpam){
-        Iterator entries = spam.entrySet().iterator();
+        Set<String> keys = spam.keySet();
+        Iterator<String> keyIterator = keys.iterator();
 
-        while(entries.hasNext()){
-            Map.Entry entry = (Map.Entry) entries.next();
-            String key = (String) entry.getKey();
-            Integer value = (Integer) entry.getValue();
+        while(keyIterator.hasNext()){
+            String key = keyIterator.next();
             if(ham.get(key) == null){
-                double probSpam = value/numSpam;
-                double prob = probSpam/(probSpam);
-                probOfWord.put(key, prob);
-                System.out.println(key + " " + prob);
+                probOfWord.put(key, 1.0);
             }
-            else {
-                double probHam = ham.get(key) / numHam;
-                System.out.println(probHam);
-
-                double probSpam = value/numSpam;
-                double prob = probSpam/(probSpam + probHam);
-                probOfWord.put(key, prob);
-                System.out.println(key + " " + prob);
-
+            else if (ham.get(key) != null){
+                double spamCount = spam.get(key);
+                double hamCount = ham.get(key);
+                double spamNum = spamCount/numSpam;
+                double hamNum = hamCount/numHam;
+                probOfWord.put(key, spamNum/(spamNum+hamNum));
             }
         }
     }
@@ -117,8 +111,6 @@ public class Training {
         File ham2 = new File(dir, "/ham2");
         int numSpam = spam.listFiles().length;
         int numHam = ham.listFiles().length + ham2.listFiles().length;
-        System.out.println(numSpam + " " + numHam
-        );
         try {
             processFile(spam, trainSpamFreq);
             processFile(ham, trainHamFreq);
@@ -130,10 +122,26 @@ public class Training {
             e.printStackTrace();
         }
 
+
         setProbOfWord(trainSpamFreq, trainHamFreq, numHam, numSpam);
         File prob = new File("probability.txt");
+        File hamText = new File("ham.txt");
+        File spamText = new File("spam.txt");
+        double num1 = trainHamFreq.get("ABOUT");
+        double num2 = trainSpamFreq.get("ABOUT");
+        double num3 = num2/numSpam;
+        double num4 = num1/numHam;
+        System.out.println("num1 = " + num1);
+        System.out.println("num2 = " + num2);
+        System.out.println("numSpam = " + numSpam);
+        System.out.println(num3);
+        System.out.println(num4);
+        System.out.println(num3/(num3+num4));
+        System.out.println("ABOUT PROB = " + probOfWord.get("ABOUT"));
         try {
-            printWordCounts(2, prob);
+            printWordCounts(0, hamText, trainHamFreq);
+            printWordCounts(0, spamText, trainSpamFreq);
+            printWordCounts(0, prob, probOfWord);
         }
         catch(FileNotFoundException e){
             e.printStackTrace();
