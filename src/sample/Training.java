@@ -81,7 +81,17 @@ public class Training {
 //            System.err.println("Cannot write to output file");
 //        }
 //    }
+    public void setProbSpam(int numSpam, Map<String, Integer> trainSpamFreq){
+        Set<String> key = trainSpamFreq.keySet();
+        Iterator<String> keyIterator = key.iterator();
 
+        while(keyIterator.hasNext()){
+            String num = keyIterator.next();
+            int count = trainSpamFreq.get(num);
+
+            
+        }
+    }
 
 
 
@@ -89,6 +99,8 @@ public class Training {
         File spam = new File(dir, "/spam");
         File ham = new File(dir, "/ham");
         File ham2 = new File(dir, "/ham2");
+        int numSpam = spam.listFiles().length;
+        int numHam = ham.listFiles().length + ham2.listFiles().length;
         try {
             processFile(spam, trainSpamFreq);
             processFile(ham, trainHamFreq);
@@ -99,6 +111,7 @@ public class Training {
         }catch (IOException e){
             e.printStackTrace();
         }
+
 
     }
 }
