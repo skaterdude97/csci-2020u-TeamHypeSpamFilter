@@ -86,7 +86,7 @@ public class Testing {
 
                 if (sp>0.5) {spamCount++;}
 
-                files.add(new TestFile(ham.listFiles()[i].getName(), sp,"ham"));
+                files.add(new TestFile(ham.listFiles()[i].getName(), sp,"Ham"));
             }
 
             accuracy = 1-((spamCount-correctSpam)/(double)files.size());
