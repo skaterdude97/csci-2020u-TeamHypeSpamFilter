@@ -104,11 +104,11 @@ public class Training {
                 System.out.println(key + " " + prob);
 
             }
-
-
-
-
         }
+    }
+
+    public Map<String, Double> getProbOfWord(){
+        return probOfWord;
     }
 
     public void train(File dir){
