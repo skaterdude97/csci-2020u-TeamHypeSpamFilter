@@ -1,6 +1,8 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -19,7 +21,8 @@ import java.text.DecimalFormat;
 public class Main extends Application {
     private BorderPane layout;
     private TableView<TestFile> table;
-    private TextField accuracy, precision;
+    private TextField accuracy, precision, email;
+    private Button retestButton ,addButton;
     private GridPane summary;
     final DecimalFormat outputFormat = new DecimalFormat("0.00000");
 
@@ -88,6 +91,29 @@ public class Main extends Application {
         precision.setEditable(false);
         precision.setText(new String(outputFormat.format(tester.getPrecision())));
         summary.add(precision,1,1);
+
+        Label emailLabel = new Label("Add email to Blacklist");
+        summary.add(emailLabel,2,0);
+        email = new TextField();
+        email.setEditable(true);
+        email.setPromptText("sample@email.com");
+        summary.add(email,3,0);
+
+
+        addButton = new Button("Add");
+        addButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+            }
+        });
+        summary.add(addButton,4,0);
+
+        retestButton = new Button("Retest");
+        summary.add(retestButton,2,1);
+
+
+
 
         layout = new BorderPane();
         layout.setCenter(table);
