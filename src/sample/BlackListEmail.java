@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class BlackListEmail {
     private List<String> blacklist;
 
-    public BlackListEmail(String email) {
+    public BlackListEmail() {
         blacklist = new ArrayList<>();
 
     }
