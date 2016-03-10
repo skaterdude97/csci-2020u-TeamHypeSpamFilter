@@ -27,12 +27,18 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         Training t = new Training();
-        File dataDir = new File("/home/brad/Documents/csci-2020u-TeamHypeSpamFilter/src/sample/data/train");
-        System.out.println("File: " + dataDir);
+        File spamDir = new File("/home/brad/Documents/csci-2020u-TeamHypeSpamFilter/src/sample/data/train/spam");
+        File hamDir1 = new File("/home/brad/Documents/csci-2020u-TeamHypeSpamFilter/src/sample/data/train/ham");
+        File hamDir2 = new File("/home/brad/Documents/csci-2020u-TeamHypeSpamFilter/src/sample/data/train/ham2");
+
 
         try{
-            t.processFile(dataDir);
-            t.printWordCounts(2, new File("wordcount.txt"));
+            t.processFile(spamDir);
+            t.printWordCounts(2, new File("spam.txt"));
+            t.processFile(hamDir1);
+            t.printWordCounts(2, new File("ham.txt"));
+            t.processFile(hamDir2);
+            t.printWordCounts(2, new File("ham.txt"));
         }
         catch (FileNotFoundException e){
             e.printStackTrace();

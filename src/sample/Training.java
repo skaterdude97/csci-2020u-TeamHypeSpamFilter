@@ -67,7 +67,6 @@ public class Training {
                 int count = wordCounts.get(key);
 
                 if (count >= minCount) {
-                    
                     fout.println(key + ": " + count);
                 }
             }
