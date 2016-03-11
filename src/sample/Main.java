@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 
@@ -104,12 +105,22 @@ public class Main extends Application {
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
+                try {
+                    tester.addToBlacklist(email.getText());
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
             }
         });
         summary.add(addButton,4,0);
 
         retestButton = new Button("Retest");
+        retestButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                tester.test(trainer.getProbOfWord());
+            }
+        });
         summary.add(retestButton,2,1);
 
 

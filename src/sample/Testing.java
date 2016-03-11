@@ -79,7 +79,7 @@ public class Testing {
                 }
             }
             for (int i = 0; i<ham.listFiles().length; i++) {
-                if (!blackList.getBlacklist().contains(spam.listFiles()[i])) {
+                if (!blackList.getBlacklist().contains(ham.listFiles()[i])) {
                     Scanner testInput = new Scanner(ham.listFiles()[i]);
                     double sp;
                     double n = 0;
