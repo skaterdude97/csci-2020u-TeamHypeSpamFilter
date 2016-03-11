@@ -109,7 +109,7 @@ public class Testing {
                 } else {
                     correctSpam++;
                     spamCount++;
-                    files.add(new TestFile(spam.listFiles()[i].getName(), 1.0, "Ham"));
+                    files.add(new TestFile(ham.listFiles()[i].getName(), 1.0, "Ham"));
                 }
 
             }

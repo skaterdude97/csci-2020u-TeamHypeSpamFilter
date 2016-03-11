@@ -106,7 +106,12 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent event) {
                 try {
-                    tester.addToBlacklist(email.getText());
+                    if (isValidEmailAddress(email.getText())) {
+                        tester.addToBlacklist(email.getText());
+                        email.setText("");
+                    } else {
+                        email.setText("Not a valid email");
+                    }
                 }catch (IOException e){
                     e.printStackTrace();
                 }
@@ -119,6 +124,9 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent event) {
                 tester.test(trainer.getProbOfWord());
+                accuracy.setText(outputFormat.format(tester.getAccuracy()));
+                precision.setText(new String(outputFormat.format(tester.getPrecision())));
+
             }
         });
         summary.add(retestButton,2,1);
@@ -135,6 +143,12 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    public boolean isValidEmailAddress(String email) {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
+    }
 
     public static void main(String[] args) {launch(args);}
 }
