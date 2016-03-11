@@ -12,13 +12,14 @@ import javafx.collections.*;
  * Created by andrei on 10/03/16.
  */
 public class Testing {
-    private ObservableList<TestFile> files = FXCollections.observableArrayList();
+    private ObservableList<TestFile> files;
     private File spam, ham;
     private int correctSpam=0, spamCount=0;
     private double accuracy, precision;
     private BlackListEmail blackList;
 
     public Testing(File dir) {
+        files = FXCollections.observableArrayList();
         spam = new File(dir, "/spam");
         ham = new File(dir, "/ham");
         blackList = new BlackListEmail();
@@ -42,6 +43,7 @@ public class Testing {
     }
 
     public void test (Map<String, Double> probOfWord) {
+        if (!files.isEmpty()) files = FXCollections.observableArrayList();
         try {
 
             for (int i = 0; i<spam.listFiles().length; i++) {
