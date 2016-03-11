@@ -43,7 +43,7 @@ public class Testing {
     }
 
     public void test (Map<String, Double> probOfWord) {
-        if (!files.isEmpty()) files = FXCollections.observableArrayList();
+        if (!files.isEmpty()) files.removeAll();
         try {
 
             for (int i = 0; i<spam.listFiles().length; i++) {
