@@ -125,17 +125,6 @@ public class Training {
         File prob = new File("probability.txt");
         File hamText = new File("ham.txt");
         File spamText = new File("spam.txt");
-        double num1 = trainHamFreq.get("ABOUT");
-        double num2 = trainSpamFreq.get("ABOUT");
-        double num3 = num2/numSpam;
-        double num4 = num1/numHam;
-        System.out.println("num1 = " + num1);
-        System.out.println("num2 = " + num2);
-        System.out.println("numSpam = " + numSpam);
-        System.out.println(num3);
-        System.out.println(num4);
-        System.out.println(num3/(num3+num4));
-        System.out.println("ABOUT PROB = " + probOfWord.get("ABOUT"));
         try {
             printWordCounts(0, hamText, trainHamFreq);
             printWordCounts(0, spamText, trainSpamFreq);
